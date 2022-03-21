@@ -1,4 +1,3 @@
-import { Component } from "react";
 import {
   TextInput,
   Text,
@@ -6,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { useState } from "react";
 
 const styles = StyleSheet.create({
   container: {
@@ -18,15 +18,31 @@ const styles = StyleSheet.create({
 
 export default function App() {
   const getData = () => {
-    fetch("http://10.255.255.3:3000/cars", {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
+    var url = "http://10.255.255.3:8090/getCars.php";
+    var headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
+    var Data = {
+      Immatriculation: Immatriculation,
+    };
+    fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({ Data }),
     })
-      .then((response) => response.json())
-      .then((users) => console.warn(users));
+      .then((response) => response.text()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response) => {
+        alert(response); // If data is in JSON => Display alert msg
+        setResponse(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
+  const [Immatriculation, setImmatriculation] = useState("");
+  const [response, setResponse] = useState("");
 
   return (
     <View style={styles.container}>
@@ -39,6 +55,7 @@ export default function App() {
           borderWidth: 1,
         }}
         underlineColorAndroid="transparent"
+        onChangeText={(Immatriculation) => setImmatriculation(Immatriculation)}
       />
 
       <TouchableOpacity
@@ -52,6 +69,7 @@ export default function App() {
       >
         <Text style={{ color: "#fff" }}>Rechercher</Text>
       </TouchableOpacity>
+      <Text>{response !== null ? response : ""}</Text>
     </View>
   );
 }
