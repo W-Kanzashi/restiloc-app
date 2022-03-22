@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 export default function App() {
   const [Immatriculation, setImmatriculation] = useState("");
-  const [response, setResponse] = useState({});
+  const [response, setResponse] = useState(null);
 
   const getData = () => {
     var url = "http://10.255.255.3:8090/getCars.php";
@@ -36,12 +36,13 @@ export default function App() {
       headers: headers,
       body: JSON.stringify({ Data }),
     })
-      .then((response) => response.json()) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response) => response.json()) // check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
       .then((response) => {
         // alert(response); // If data is in JSON => Display alert msg
         setResponse(response);
       })
       .catch((error) => {
+        console.log("error");
         console.log(error);
       });
   };
@@ -76,7 +77,11 @@ export default function App() {
           <Text style={{ color: "#fff" }}>Rechercher</Text>
         </TouchableOpacity>
       </View>
-      {response !== null ? <DisplayCar response={response} /> : ""}
+      {response === null ? (
+        <Text>"Voiture non trouvé"</Text>
+      ) : (
+        <DisplayCar response={response} />
+      )}
     </>
   );
 }

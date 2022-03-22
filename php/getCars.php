@@ -1,4 +1,7 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 include('db.php');
 
 $immatriculation = $decodedData['immatriculation'];
@@ -9,13 +12,8 @@ $SQL = "SELECT * FROM vehicule JOIN dossier on vehicule.id_vehicule=dossier.id_v
 $result = mysqli_query($conn, $SQL);
 $response;
 
-if (mysqli_num_rows($result) > 0) {
-  // output data of each row
-  while($row = mysqli_fetch_assoc($result)) {
-    $response = $row;
-  }
-} else {
-  echo "0 results";
+while($row = mysqli_fetch_assoc($result)) {
+  $response = $row;
 }
 
 mysqli_close($conn);
