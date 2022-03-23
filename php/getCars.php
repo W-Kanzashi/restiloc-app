@@ -6,7 +6,7 @@ include('db.php');
 
 $immatriculation = $decodedData['Immatriculation'];
 
-$SQL = "SELECT * FROM vehicule JOIN dossier on vehicule.id_vehicule=dossier.id_vehicule WHERE immatriculation='$immatriculation'";
+$SQL = "SELECT * FROM vehicule JOIN dossier on vehicule.id_vehicule=dossier.id_vehicule JOIN client on dossier.id_client=client.id_client WHERE immatriculation='$immatriculation'";
 
 $result = mysqli_query($conn, $SQL);
 $response;

@@ -1,0 +1,16 @@
+{
+  "response": {
+    "couleur": "noire",
+    "date_creation_dossier": null,
+    "date_mec": "2021-09-07",
+    "id_client": "3",
+    "id_dossier": "4",
+    "id_expert": null,
+    "id_vehicule": "1",
+    "immatriculation": "xan-123",
+    "indisponibilite": null,
+    "nom_fichier_expertise": "John1",
+    "nom_modele": "alpha",
+    "ref_dossier": "John1"
+  }
+}
