@@ -1,7 +1,7 @@
 <?php
-$conn = mysqli_connect('localhost', 'root', 'Ashley13', 'restiloc');
+$conn = mysqli_connect('localhost', 'root', 'root', 'restiloc');
 
-$encodedData = file_get_contents('php://input');  // take data from react native fetch API
+$encodedData = file_get_contents('php://input');  // take data from fetch API
 $decodedData = json_decode($encodedData, true);
 
 // Check connection

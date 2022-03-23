@@ -4,8 +4,7 @@ header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 include('db.php');
 
-$immatriculation = $decodedData['immatriculation'];
-$immatriculation = "xan-123";
+$immatriculation = $decodedData['Immatriculation'];
 
 $SQL = "SELECT * FROM vehicule JOIN dossier on vehicule.id_vehicule=dossier.id_vehicule WHERE immatriculation='$immatriculation'";
 
