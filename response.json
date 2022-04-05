@@ -12,5 +12,12 @@
     "nom_fichier_expertise": "John1",
     "nom_modele": "alpha",
     "ref_dossier": "John1"
+  },
+  "POST": {
+    "description_prestation": "Réparer",
+    "nom_photo": "photo.jpg",
+    "chemin_photo": "/home/restiloc/public_html/id_client/id_dossier/",
+    "nom_piece": "parechoc",
+    "libelle_piece": "aaaaa"
   }
 }

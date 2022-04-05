@@ -23,6 +23,15 @@ const styles = StyleSheet.create({
   textInput: {
     marginVertical: 10,
   },
+  camera: {
+    flex: 1,
+  },
+  buttonContainer: {
+    flex: 1,
+    backgroundColor: "transparent",
+    flexDirection: "row",
+    margin: 20,
+  },
 });
 
 export default styles;

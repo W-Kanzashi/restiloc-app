@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import { Text, Button, Snackbar, TextInput } from "react-native-paper";
+import { Camera } from "expo-camera";
 
 export default function HomeScreen({ navigation }) {
   const [visible, setVisible] = useState(false);
@@ -10,7 +11,7 @@ export default function HomeScreen({ navigation }) {
   const getData = () => {
     // const url = "http://10.255.255.3:8090/getCars.php";
     // Edit the server ip
-    const url = "http://172.24.151.238:8090/getCars.php";
+    const url = "http://172.24.37.55:8090/getCars.php";
     var headers = {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -33,6 +34,8 @@ export default function HomeScreen({ navigation }) {
         console.log(error);
       });
   };
+
+  let camera = Camera;
 
   return (
     <>
@@ -62,11 +65,14 @@ export default function HomeScreen({ navigation }) {
           }
         />
 
-        <TouchableOpacity onPress={getData} style={{ padding: 10, margin: 10 }}>
-          <Button icon="folder-search-outline" mode="contained">
-            Rechercher
-          </Button>
-        </TouchableOpacity>
+        <Button
+          icon="folder-search-outline"
+          mode="contained"
+          onPress={getData}
+          style={{ padding: 10, margin: 10 }}
+        >
+          Rechercher
+        </Button>
       </View>
     </>
   );
