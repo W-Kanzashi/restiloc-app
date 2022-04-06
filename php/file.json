@@ -1,9 +1,9 @@
 {
-  "data": {
-    "description_prestation": "Réparer",
-    "nom_photo": "photo.jpg",
-    "chemin_photo": "/home/restiloc/public_html/id_client/id_dossier/",
-    "nom_piece": "parechoc",
-    "libelle_piece": "aaaaa"
-  }
+  "libelle_prestation": "Réparer",
+  "description_prestation": "Réparer la voiture",
+  "nom_photo": "photo.jpg",
+  "chemin_photo": "/home/restiloc/public_html/id_client/id_dossier/",
+  "nom_piece": "parechoc",
+  "libelle_piece": "aaaaa",
+  "id_vehicule": 1
 }

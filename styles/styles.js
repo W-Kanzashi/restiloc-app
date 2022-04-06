@@ -1,9 +1,9 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: "10%",
-    marginTop: "10%",
+    flex: 1,
+    paddingTop: StatusBar.currentHeight,
   },
   modalStyle: {
     backgroundColor: "white",
