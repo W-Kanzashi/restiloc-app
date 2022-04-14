@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { Button } from "react-native-paper";
 
 import { DisplayCar } from "../components/DisplayCar";
@@ -14,7 +14,11 @@ export default function ({ navigation, route }) {
         <DisplayClient response={route.params.response} />
         <Button
           mode="contained"
-          onPress={() => navigation.navigate("Prestation")}
+          onPress={() =>
+            navigation.navigate("Prestation", {
+              response: route.params.response,
+            })
+          }
           style={{ marginVertical: 5, width: 300, marginHorizontal: "auto" }}
         >
           Ajouter une prestation

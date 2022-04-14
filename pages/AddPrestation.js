@@ -7,23 +7,27 @@ import {
   Image,
 } from "react-native";
 import { Text, TextInput, Button } from "react-native-paper";
+import { Picker } from "@react-native-picker/picker";
 
 import styles from "../styles/styles";
 import { Camera } from "expo-camera";
 
-let defaultValue = {
-  prestation: "",
-  description_prestation: "",
-  type: "carosserie",
-  photo: {},
-};
-
-export default function AddWork() {
+export default function AddWork({ navigation, route }) {
+  // Data to send to the server
+  let defaultValue = {
+    client_id: route.params.response.id_client,
+    folder_id: route.params.response.id_dossier,
+    type_prestation: "Carosserie",
+    prestation: "",
+    description_prestation: "",
+    photo: "",
+  };
   const [prestation, setPrestation] = useState(defaultValue);
   const [displayCamera, setDisplayCamera] = useState(false);
-  const [photo, setPhoto] = useState(null);
   let camera = Camera;
   const type = Camera.Constants.Type.back;
+
+  console.log(route.params.response);
 
   const handleDisplayCamera = () => setDisplayCamera(!displayCamera);
 
@@ -54,11 +58,12 @@ export default function AddWork() {
     const url = "http://10.255.255.3:8090/addPresta.php";
     // Edit the server ip
     // const url = "http://172.24.37.55:8090/getCars.php";
-    var headers = {
+    const headers = {
       Accept: "application/json",
       "Content-Type": "application/json",
     };
-    var Data = prestation;
+    const Data = prestation;
+    console.log(Data);
     fetch(url, {
       method: "POST",
       headers: headers,
@@ -81,7 +86,16 @@ export default function AddWork() {
           <View>
             <Text>Ajouter une prestation</Text>
           </View>
-          <View>
+          <Picker
+            selectedValue={prestation.type_prestation}
+            onValueChange={(itemValue) =>
+              handleInputChange(itemValue.toLowerCase(), "type_prestation")
+            }
+          >
+            <Picker.Item label="carosserie" value="Carosserie" />
+            <Picker.Item label="piece" value="Piece" />
+          </Picker>
+          <View style={{ flex: 1, height: "100%" }}>
             <TextInput
               label="Prestation a réaliser"
               value={prestation.prestation}
@@ -100,7 +114,7 @@ export default function AddWork() {
             />
 
             {displayCamera && (
-              <View style={{ height: "100%" }}>
+              <View style={{ height: 350, flex: 1 }}>
                 <Camera
                   style={styles.camera}
                   type={type}
@@ -110,10 +124,9 @@ export default function AddWork() {
                 >
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity
-                      style={styles.button}
                       onPress={async () => {
                         let photo = await camera.takePictureAsync();
-                        handleInputChange(photo, "photo");
+                        handleInputChange(photo.uri, "photo");
                         setDisplayCamera(!displayCamera);
                       }}
                     >
@@ -143,8 +156,8 @@ export default function AddWork() {
             </Button>
           </View>
           <Image
-            source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
-            style={{ width: "100%", height: "100%" }}
+            source={{ uri: prestation.photo }}
+            style={{ width: "100%", height: 350 }}
           />
         </ScrollView>
       </SafeAreaView>

@@ -30,7 +30,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "transparent",
     flexDirection: "row",
-    margin: 20,
+    alignItems: "flex-end",
+    justifyContent: "center",
+    bottom: 10,
   },
 });
 
