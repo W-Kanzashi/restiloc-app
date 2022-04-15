@@ -17,10 +17,11 @@ export default function AddWork({ navigation, route }) {
   let defaultValue = {
     client_id: route.params.response.id_client,
     folder_id: route.params.response.id_dossier,
-    type_prestation: "Carosserie",
-    prestation: "",
-    description_prestation: "",
-    photo: "",
+    id_vehicule: route.params.response.id_vehicule,
+    type_prestation: "piece",
+    libelle_prestation: "Porte",
+    description_prestation: "La porte doit être remplacée",
+    photo: {},
   };
   const [prestation, setPrestation] = useState(defaultValue);
   const [displayCamera, setDisplayCamera] = useState(false);
@@ -76,8 +77,7 @@ export default function AddWork({ navigation, route }) {
       });
   };
 
-  console.log("prestation.photo");
-  console.log(prestation);
+  console.log(prestation.photo);
 
   return (
     <>
@@ -98,10 +98,12 @@ export default function AddWork({ navigation, route }) {
           <View style={{ flex: 1, height: "100%" }}>
             <TextInput
               label="Prestation a réaliser"
-              value={prestation.prestation}
+              value={prestation.libelle_prestation}
               style={styles.textInput}
-              name="prestation"
-              onChangeText={(data) => handleInputChange(data, "prestation")}
+              name="libelle_prestation"
+              onChangeText={(data) =>
+                handleInputChange(data, "libelle_prestation")
+              }
             />
             <TextInput
               label="Description de la prestation"
@@ -126,7 +128,7 @@ export default function AddWork({ navigation, route }) {
                     <TouchableOpacity
                       onPress={async () => {
                         let photo = await camera.takePictureAsync();
-                        handleInputChange(photo.uri, "photo");
+                        handleInputChange(photo, "photo");
                         setDisplayCamera(!displayCamera);
                       }}
                     >
@@ -156,7 +158,7 @@ export default function AddWork({ navigation, route }) {
             </Button>
           </View>
           <Image
-            source={{ uri: prestation.photo }}
+            source={{ uri: prestation.photo.uri }}
             style={{ width: "100%", height: 350 }}
           />
         </ScrollView>

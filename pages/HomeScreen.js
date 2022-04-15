@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { View } from "react-native";
 import { Text, Button, Snackbar, TextInput } from "react-native-paper";
-import { Camera } from "expo-camera";
 
 export default function HomeScreen({ navigation }) {
   const [visible, setVisible] = useState(false);
-  const [immatriculation, setImmatriculation] = useState("");
+  const [immatriculation, setImmatriculation] = useState("xan-123");
 
   const onDismissSnackBar = () => setVisible(false);
   const getData = () => {
