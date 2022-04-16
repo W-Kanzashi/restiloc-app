@@ -18,17 +18,18 @@ export default function AddWork({ navigation, route }) {
     client_id: route.params.response.id_client,
     folder_id: route.params.response.id_dossier,
     id_vehicule: route.params.response.id_vehicule,
-    type_prestation: "piece",
+    categorie_prestation: "carosserie",
+    type_prestation: "",
     libelle_prestation: "Porte",
     description_prestation: "La porte doit être remplacée",
+    quantite: 1,
+    traitement: "legere",
     photo: {},
   };
   const [prestation, setPrestation] = useState(defaultValue);
   const [displayCamera, setDisplayCamera] = useState(false);
   let camera = Camera;
   const type = Camera.Constants.Type.back;
-
-  console.log(route.params.response);
 
   const handleDisplayCamera = () => setDisplayCamera(!displayCamera);
 
@@ -59,15 +60,10 @@ export default function AddWork({ navigation, route }) {
     const url = "http://10.255.255.3:8090/addPresta.php";
     // Edit the server ip
     // const url = "http://172.24.37.55:8090/getCars.php";
-    const headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    };
     const Data = prestation;
     console.log(Data);
     fetch(url, {
       method: "POST",
-      headers: headers,
       body: JSON.stringify(Data),
     })
       .then((response) => response.json()) // check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
@@ -77,24 +73,60 @@ export default function AddWork({ navigation, route }) {
       });
   };
 
-  console.log(prestation.photo);
+  console.log(prestation);
 
   return (
     <>
       <SafeAreaView>
         <ScrollView>
           <View>
-            <Text>Ajouter une prestation</Text>
+            <Text style={{ fontSize: 30, color: "black", marginBottom: 20 }}>
+              Ajouter une prestation
+            </Text>
           </View>
-          <Picker
-            selectedValue={prestation.type_prestation}
-            onValueChange={(itemValue) =>
-              handleInputChange(itemValue.toLowerCase(), "type_prestation")
-            }
-          >
-            <Picker.Item label="carosserie" value="Carosserie" />
-            <Picker.Item label="piece" value="Piece" />
-          </Picker>
+          <View>
+            <Text style={{ fontSize: 20, color: "black" }}>
+              Type de prestation
+            </Text>
+            <Picker
+              selectedValue={prestation.categorie_prestation}
+              onValueChange={(itemValue) =>
+                handleInputChange(itemValue, "categorie_prestation")
+              }
+            >
+              <Picker.Item label="Carosserie" value="carosserie" />
+              <Picker.Item label="Piece" value="piece" />
+            </Picker>
+
+            {prestation.categorie_prestation === "carosserie" ? (
+              <View>
+                <Text style={{ fontSize: 20, color: "black" }}>Quantité</Text>
+                <Picker
+                  selectedValue={prestation.quantite}
+                  onValueChange={(itemValue) =>
+                    handleInputChange(itemValue.toLowerCase(), "quantite")
+                  }
+                >
+                  <Picker.Item label="1" value="1" />
+                  <Picker.Item label="2" value="2" />
+                </Picker>
+              </View>
+            ) : (
+              <View>
+                <Text style={{ fontSize: 20, color: "black" }}>Traitement</Text>
+                <Picker
+                  selectedValue={prestation.traitement}
+                  onValueChange={(itemValue) =>
+                    handleInputChange(itemValue.toLowerCase(), "traitement")
+                  }
+                >
+                  <Picker.Item label="legere" value="Légère" />
+                  <Picker.Item label="moyenne" value="Moyenne" />
+                  <Picker.Item label="forte" value="Forte" />
+                </Picker>
+              </View>
+            )}
+          </View>
           <View style={{ flex: 1, height: "100%" }}>
             <TextInput
               label="Prestation a réaliser"
