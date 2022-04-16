@@ -37,10 +37,7 @@ $chemin_photo = $structure;
 if(is_dir($chemin_photo) === false) {
   // Create the folder
   if(!mkdir($chemin_photo, 0777, true)) {
-    die("Failed to create folder");
-  }
-  else {
-    echo "Folder created";
+    die("500");
   }
 }
 
@@ -57,23 +54,23 @@ $stmt = $conn->prepare("INSERT INTO $prestation (libelle_prestation, description
 $stmt->bind_param("ssssi", $libelle_prestation, $description_prestation, $nom_photo, $chemin_photo, $id_vehicule);
 
 $stmt->execute();
-$id = mysqli_insert_id($conn);
+$id_prestation = mysqli_insert_id($conn);
 
 // Remove the duplicate folder create by ???
 removeDirectory(__DIR__ . "/images/" . date("Y-m-d"));
 
-echo $id . "<br/>";
+echo $id_prestation . "<br/>";
 // Populate the coresponding table with the data
 switch($categorie_prestation) {
   case "piece":
-    $SQL = "INSERT INTO traitement (nom_traitement, id_prestation) VALUES (?,?)";
-    $stmt = $conn->prepare($SQL);
-    $stmt->bind_param("si", $type_traitement, $id);
+    $stmt = $conn->prepare("INSERT INTO traitement (nom_traitement, id_prestation) VALUES (?,?)");
+    $stmt->bind_param("si", $type_traitement, $id_prestation);
+    echo "piece";
     break;
   case "carosserie":
-    $SQL = "INSERT INTO quantite (id_prestation, quantite) VALUES (?,?)";
-    $stmt = $conn->prepare($SQL);
-    $stmt->bind_param("ii", $id, $quantite);
+    $stmt = $conn->prepare("INSERT INTO quantite (id_prestation, quantite) VALUES (?,?,?)");
+    $stmt->bind_param("ii", $id_prestation, $quantite);
+    echo "carosserie";
   break;
 }
 $stmt->execute();
@@ -81,4 +78,4 @@ $stmt->execute();
 $stmt->close();
 $conn->close();
 
-echo json_encode("200");
+echo "200";

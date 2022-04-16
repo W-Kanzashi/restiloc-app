@@ -18,6 +18,7 @@ export default function AddWork({ navigation, route }) {
     client_id: route.params.response.id_client,
     folder_id: route.params.response.id_dossier,
     id_vehicule: route.params.response.id_vehicule,
+    id_piece: 0,
     categorie_prestation: "carosserie",
     type_prestation: "",
     libelle_prestation: "Porte",
@@ -26,6 +27,7 @@ export default function AddWork({ navigation, route }) {
     traitement: "legere",
     photo: {},
   };
+
   const [prestation, setPrestation] = useState(defaultValue);
   const [displayCamera, setDisplayCamera] = useState(false);
   let camera = Camera;
@@ -74,6 +76,8 @@ export default function AddWork({ navigation, route }) {
   };
 
   console.log(prestation);
+  console.log("pieces");
+  console.log(route.params.pieces);
 
   return (
     <>
@@ -90,9 +94,10 @@ export default function AddWork({ navigation, route }) {
             </Text>
             <Picker
               selectedValue={prestation.categorie_prestation}
-              onValueChange={(itemValue) =>
-                handleInputChange(itemValue, "categorie_prestation")
-              }
+              onValueChange={(itemValue) => {
+                handleInputChange(itemValue, "categorie_prestation");
+                handleGetPiece();
+              }}
             >
               <Picker.Item label="Carosserie" value="carosserie" />
               <Picker.Item label="Piece" value="piece" />
@@ -126,6 +131,30 @@ export default function AddWork({ navigation, route }) {
                 </Picker>
               </View>
             )}
+            {route.params.pieces.length !== 0 ? (
+              <View>
+                <Text style={{ fontSize: 20, color: "black" }}>
+                  Nom de la Pièce
+                </Text>
+                <Picker
+                  selectedValue={route.params.pieces.nom}
+                  onValueChange={(itemValue) =>
+                    handleInputChange(itemValue, "id_piece")
+                  }
+                >
+                  {Object.entries(route.params.pieces).forEach(
+                    ([key, value]) => {
+                      <Picker.Item
+                        label={value.nom_piece}
+                        value={value.nom_piece}
+                        key={key}
+                      />;
+                      console.log(value);
+                    }
+                  )}
+                </Picker>
+              </View>
+            ) : null}
           </View>
           <View style={{ flex: 1, height: "100%" }}>
             <TextInput
