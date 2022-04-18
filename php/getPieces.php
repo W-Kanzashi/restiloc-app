@@ -8,13 +8,13 @@ header('Content-Type: application/json');
 include('db.php');
 
 // $data : piece | carosserie
-$SQL = "SELECT * FROM " . strtolower($decodedData["data"]);
+$SQL = "SELECT * FROM " . strtolower($decodedData["categorie_prestation"]);
 
 $result = mysqli_query($conn, $SQL);
 $response;
 
 while($row = mysqli_fetch_assoc($result)) {
-  $response[$row["id_carosserie"]] = $row;
+  $response[$row["id_" . $decodedData["categorie_prestation"]]] = $row;
 }
 
 mysqli_close($conn);

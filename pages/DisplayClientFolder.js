@@ -16,7 +16,7 @@ export default function ({ navigation, route }) {
       Accept: "application/json",
       "Content-Type": "application/json",
     };
-    let data = { data: "carosserie" };
+    let data = { categorie_prestation: "carosserie" };
     fetch(url, {
       method: "POST",
       headers: headers,

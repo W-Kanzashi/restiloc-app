@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import {
   View,
   TouchableOpacity,
@@ -44,6 +44,8 @@ export default function AddWork({ navigation, route }) {
 
   const [hasPermission, setHasPermission] = useState(null);
 
+  const [pieces, setPieces] = useState(Object.values(route.params.pieces));
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -63,7 +65,6 @@ export default function AddWork({ navigation, route }) {
     // Edit the server ip
     // const url = "http://172.24.37.55:8090/getCars.php";
     const Data = prestation;
-    console.log(Data);
     fetch(url, {
       method: "POST",
       body: JSON.stringify(Data),
@@ -75,9 +76,26 @@ export default function AddWork({ navigation, route }) {
       });
   };
 
+  const handleGetPiece = (itemValue) => {
+    const url = "http://10.255.255.3:8090/getPieces.php";
+    // Edit the server ip
+    // const url = "http://172.24.37.55:8090/getCars.php";
+    console.log(itemValue);
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        categorie_prestation: itemValue,
+      }),
+    })
+      .then((response) => response.json()) // check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+      .then((response) => setPieces(Object.values(response)))
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   console.log(prestation);
-  console.log("pieces");
-  console.log(route.params.pieces);
+  console.log(pieces);
 
   return (
     <>
@@ -96,7 +114,7 @@ export default function AddWork({ navigation, route }) {
               selectedValue={prestation.categorie_prestation}
               onValueChange={(itemValue) => {
                 handleInputChange(itemValue, "categorie_prestation");
-                handleGetPiece();
+                handleGetPiece(itemValue);
               }}
             >
               <Picker.Item label="Carosserie" value="carosserie" />
@@ -131,30 +149,29 @@ export default function AddWork({ navigation, route }) {
                 </Picker>
               </View>
             )}
-            {route.params.pieces.length !== 0 ? (
-              <View>
-                <Text style={{ fontSize: 20, color: "black" }}>
-                  Nom de la Pièce
-                </Text>
-                <Picker
-                  selectedValue={route.params.pieces.nom}
-                  onValueChange={(itemValue) =>
-                    handleInputChange(itemValue, "id_piece")
-                  }
-                >
-                  {Object.entries(route.params.pieces).forEach(
-                    ([key, value]) => {
-                      <Picker.Item
-                        label={value.nom_piece}
-                        value={value.nom_piece}
-                        key={key}
-                      />;
-                      console.log(value);
+            <Suspense fallback={<Text>Loading...</Text>}>
+              {route.params.pieces.length !== 0 ? (
+                <View>
+                  <Text style={{ fontSize: 20, color: "black" }}>
+                    Nom de la Pièce
+                  </Text>
+                  <Picker
+                    selectedValue={pieces[1].id_piece}
+                    onValueChange={(itemValue, itemIndex) =>
+                      handleInputChange(itemValue, "id_piece")
                     }
-                  )}
-                </Picker>
-              </View>
-            ) : null}
+                  >
+                    {pieces.map((piece) => (
+                      <Picker.Item
+                        key={piece.id_piece}
+                        label={piece.nom_piece}
+                        value={piece.id_piece}
+                      />
+                    ))}
+                  </Picker>
+                </View>
+              ) : null}
+            </Suspense>
           </View>
           <View style={{ flex: 1, height: "100%" }}>
             <TextInput
@@ -162,9 +179,10 @@ export default function AddWork({ navigation, route }) {
               value={prestation.libelle_prestation}
               style={styles.textInput}
               name="libelle_prestation"
-              onChangeText={(data) =>
-                handleInputChange(data, "libelle_prestation")
-              }
+              onChangeText={(data) => {
+                handleInputChange(data, "libelle_prestation");
+                () => setPieces(data);
+              }}
             />
             <TextInput
               label="Description de la prestation"
