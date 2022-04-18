@@ -22,6 +22,7 @@ $description_prestation = $decodedData['description_prestation'];
 $quantite = $decodedData['quantite'];
 $traitement = $decodedData['traitement'];
 $id_vehicule = $decodedData['id_vehicule'];
+$id_piece = $decodedData['id_piece'];
 $client_id = $decodedData['client_id'];
 $folder_id = $decodedData['folder_id'];
 $photo = $decodedData['photo'];
@@ -59,23 +60,21 @@ $id_prestation = mysqli_insert_id($conn);
 // Remove the duplicate folder create by ???
 removeDirectory(__DIR__ . "/images/" . date("Y-m-d"));
 
-echo $id_prestation . "<br/>";
 // Populate the coresponding table with the data
 switch($categorie_prestation) {
   case "piece":
-    $stmt = $conn->prepare("INSERT INTO traitement (nom_traitement, id_prestation) VALUES (?,?)");
-    $stmt->bind_param("si", $type_traitement, $id_prestation);
-    echo "piece";
+    $stmt = $conn->prepare("INSERT INTO traitement (id_carosserie, nom_traitement, id_prestation) VALUES (?,?)");
+    $stmt->bind_param("isi", intval($id_piece), $type_traitement, intval($id_prestation));
     break;
   case "carosserie":
-    $stmt = $conn->prepare("INSERT INTO quantite (id_prestation, quantite) VALUES (?,?,?)");
-    $stmt->bind_param("ii", $id_prestation, $quantite);
-    echo "carosserie";
-  break;
+    $stmt = $conn->prepare("INSERT INTO quantite (id_piece, id_prestation, quantite) VALUES (?,?,?)");
+    $stmt->bind_param("iii", intval($id_piece), intval($id_prestation), intval($quantite));
+    break;
 }
+// Execute the query
 $stmt->execute();
-
+echo $stmt->error;
 $stmt->close();
 $conn->close();
 
-echo "200";
+echo json_encode("200");
