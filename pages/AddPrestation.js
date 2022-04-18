@@ -13,6 +13,10 @@ import styles from "../styles/styles";
 import { Camera } from "expo-camera";
 
 export default function AddWork({ navigation, route }) {
+  const [displayCamera, setDisplayCamera] = useState(false);
+  const [hasPermission, setHasPermission] = useState(null);
+  const [pieces, setPieces] = useState(Object.values(route.params.pieces));
+
   // Data to send to the server
   let defaultValue = {
     client_id: route.params.response.id_client,
@@ -27,24 +31,20 @@ export default function AddWork({ navigation, route }) {
     traitement: "legere",
     photo: {},
   };
-
   const [prestation, setPrestation] = useState(defaultValue);
-  const [displayCamera, setDisplayCamera] = useState(false);
   let camera = Camera;
   const type = Camera.Constants.Type.back;
 
   const handleDisplayCamera = () => setDisplayCamera(!displayCamera);
 
   const handleInputChange = (data, inputName) => {
+    console.log("HandleInputChange");
+    console.log(data, inputName);
     setPrestation({
       ...prestation,
       [inputName]: data,
     });
   };
-
-  const [hasPermission, setHasPermission] = useState(null);
-
-  const [pieces, setPieces] = useState(Object.values(route.params.pieces));
 
   useEffect(() => {
     (async () => {
@@ -127,7 +127,7 @@ export default function AddWork({ navigation, route }) {
                 <Picker
                   selectedValue={prestation.quantite}
                   onValueChange={(itemValue) =>
-                    handleInputChange(itemValue.toLowerCase(), "quantite")
+                    handleInputChange(itemValue, "quantite")
                   }
                 >
                   <Picker.Item label="1" value="1" />
@@ -149,28 +149,26 @@ export default function AddWork({ navigation, route }) {
                 </Picker>
               </View>
             )}
-            <Suspense fallback={<Text>Loading...</Text>}>
-              {route.params.pieces.length !== 0 ? (
-                <View>
-                  <Text style={{ fontSize: 20, color: "black" }}>
-                    Nom de la Pièce
-                  </Text>
-                  <Picker
-                    selectedValue={pieces[1].id_piece}
-                    onValueChange={(itemValue, itemIndex) =>
-                      handleInputChange(itemValue, "id_piece")
-                    }
-                  >
-                    {pieces.map((piece) => (
-                      <Picker.Item
-                        key={piece.id_piece}
-                        label={piece.nom_piece}
-                        value={piece.id_piece}
-                      />
-                    ))}
-                  </Picker>
-                </View>
-              ) : null}
+            <Suspense fallback={<Text>Chargement</Text>}>
+              <View>
+                <Text style={{ fontSize: 20, color: "black" }}>
+                  Nom de la Pièce
+                </Text>
+                <Picker
+                  selectedValue={prestation.id_piece}
+                  onValueChange={(itemValue) =>
+                    handleInputChange(itemValue, "id_piece")
+                  }
+                >
+                  {pieces.map((piece) => (
+                    <Picker.Item
+                      key={piece.id_piece}
+                      label={piece.nom_piece.toString()}
+                      value={piece.id_piece.toString()}
+                    />
+                  ))}
+                </Picker>
+              </View>
             </Suspense>
           </View>
           <View style={{ flex: 1, height: "100%" }}>
