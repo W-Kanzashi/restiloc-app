@@ -28,7 +28,7 @@ $folder_id = $decodedData['folder_id'];
 $photo = $decodedData['photo'];
 
 // Create the path of the folder
-$structure = __DIR__ . "/images/" . $client_id . "/" . $folder_id . "/" . date("Y-m-d") . "/";
+$structure = "/images/" . $client_id . "/" . $folder_id . "/" . date("Y-m-d") . "/";
 // Create photo name
 $nom_photo =  strtolower($categorie_prestation . "-" . $libelle_prestation . ".png");
 // Create the path of the photo
