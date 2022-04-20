@@ -32,11 +32,15 @@ export default function AddWork({ navigation, route }) {
     photo: {},
   };
   const [prestation, setPrestation] = useState(defaultValue);
+
+  // Use the camera
   let camera = Camera;
   const type = Camera.Constants.Type.back;
 
+  // Display the camera or not
   const handleDisplayCamera = () => setDisplayCamera(!displayCamera);
 
+  // Get the form data
   const handleInputChange = (data, inputName) => {
     console.log("HandleInputChange");
     console.log(data, inputName);
@@ -46,6 +50,7 @@ export default function AddWork({ navigation, route }) {
     });
   };
 
+  // Use react to get the permissions to use the camera
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -53,13 +58,15 @@ export default function AddWork({ navigation, route }) {
     })();
   }, []);
 
+  // Check the permissions to use the camera
   if (hasPermission === null) {
     return <View />;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <Text>Pas d'accès à la camera</Text>;
   }
 
+  // Send data to database
   const handleSubmit = () => {
     const url = "http://10.255.255.3:8090/addPresta.php";
     // Edit the server ip
@@ -76,6 +83,7 @@ export default function AddWork({ navigation, route }) {
       });
   };
 
+  // Get all the pieces from the database
   const handleGetPiece = (itemValue) => {
     const url = "http://10.255.255.3:8090/getPieces.php";
     // Edit the server ip
@@ -93,9 +101,6 @@ export default function AddWork({ navigation, route }) {
         console.log(error);
       });
   };
-
-  console.log(prestation);
-  console.log(pieces);
 
   return (
     <>
@@ -149,6 +154,7 @@ export default function AddWork({ navigation, route }) {
                 </Picker>
               </View>
             )}
+            {/* Suspense is use to display a loading page */}
             <Suspense fallback={<Text>Chargement</Text>}>
               <View>
                 <Text style={{ fontSize: 20, color: "black" }}>
@@ -194,6 +200,7 @@ export default function AddWork({ navigation, route }) {
 
             {displayCamera && (
               <View style={{ height: 350, flex: 1 }}>
+                {/* Use ref to access the camera and dom data */}
                 <Camera
                   style={styles.camera}
                   type={type}
@@ -204,8 +211,11 @@ export default function AddWork({ navigation, route }) {
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity
                       onPress={async () => {
+                        // Take a picture
                         let photo = await camera.takePictureAsync();
+                        // Get the image data
                         handleInputChange(photo, "photo");
+                        // Close the camera
                         setDisplayCamera(!displayCamera);
                       }}
                     >

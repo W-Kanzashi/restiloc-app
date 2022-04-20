@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, TextInput, Button } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -82,8 +82,10 @@ export default function App() {
   );
 
   return (
+    // Context is used to pass data through the component tree without being a parent
     <AuthContext.Provider value={authContext}>
       <PaperProvider>
+        {/* Navigation dans un smartphone */}
         <NavigationContainer>
           <Stack.Navigator>
             {state.userToken == null ? (
@@ -105,12 +107,14 @@ export default function App() {
   );
 }
 
+// Display the login screen if the user is not signed in
 function SignInScreen() {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const { signIn } = React.useContext(AuthContext);
 
+  // Need to check if the user it register in the database
   return (
     <View>
       <TextInput
