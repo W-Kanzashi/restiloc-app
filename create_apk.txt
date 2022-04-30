@@ -1,0 +1,4 @@
+alias : QGthbnphc2hpL3Jlc3RpbG9jLWFwcA==
+EXPO_ANDROID_KEYSTORE_PASSWORD=c0ccd12d45774b55a271ef57a9ac2e7b
+credentials/android/keystore.jks
+EXPO_ANDROID_KEY_PASSWORD=80d18c5d95334c9db728b09be093327b

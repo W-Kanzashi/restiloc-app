@@ -9,7 +9,7 @@ import styles from "../styles/styles";
 
 export default function ({ navigation, route }) {
   const getPieces = () => {
-    const url = "http://10.255.255.3:8090/getPieces.php";
+    const url = "http://10.1.120.1:8090/getPieces.php";
     // Edit the server ip
     // const url = "http://172.24.37.55:8090/getCars.php";
     var headers = {

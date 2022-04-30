@@ -68,7 +68,7 @@ export default function AddWork({ navigation, route }) {
 
   // Send data to database
   const handleSubmit = () => {
-    const url = "http://10.255.255.3:8090/addPresta.php";
+    const url = "http://10.1.120.1:8090/addPresta.php";
     // Edit the server ip
     // const url = "http://172.24.37.55:8090/getCars.php";
     const Data = prestation;
@@ -85,7 +85,7 @@ export default function AddWork({ navigation, route }) {
 
   // Get all the pieces from the database
   const handleGetPiece = (itemValue) => {
-    const url = "http://10.255.255.3:8090/getPieces.php";
+    const url = "http://10.1.120.1:8090/getPieces.php";
     // Edit the server ip
     // const url = "http://172.24.37.55:8090/getCars.php";
     console.log(itemValue);
