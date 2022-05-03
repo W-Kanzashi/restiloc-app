@@ -16,6 +16,8 @@ mysql -u username -p < restiloc.sql
 ```bash
 # Node > 16 et utiliser yarn de préférence mais npm fonctionne
 
+git clone https://github.com/W-Kanzashi/restiloc-app.git
+cd restiloc-app
 yarn install # npm install
 yarn start
 ```
