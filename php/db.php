@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli('localhost', 'root', 'Ashley13', 'restiloc');
+$conn = new mysqli('localhost', 'root', '', 'restiloc');
 
 $encodedData = file_get_contents('php://input');  // take data from fetch API
 $decodedData = json_decode($encodedData, true);
