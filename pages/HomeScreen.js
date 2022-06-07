@@ -8,7 +8,7 @@ export default function HomeScreen({ navigation }) {
 
   const onDismissSnackBar = () => setVisible(false);
   const getData = () => {
-    const url = "http://10.1.120.1:8090/getCars.php";
+    const url = "http://85.215.98.83/clark/clark_restiloc-app/getCars.php";
     // Edit the server ip
     // const url = "http://172.24.37.55:8090/getCars.php";
     var headers = {
