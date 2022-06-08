@@ -68,18 +68,18 @@ export default function AddWork({ navigation, route }) {
 
   // Send data to database
   const handleSubmit = () => {
-    const url = "http://85.215.98.83/clark/clark_restiloc-app/addPresta.php";
     // Edit the server ip
-    // const url = "http://172.24.37.55:8090/getCars.php";
+    const url = "http://85.215.98.83/clark/clark_restiloc-app/addPresta.php";
     const Data = prestation;
     fetch(url, {
       method: "POST",
+      mode: "no-cors",
       body: JSON.stringify(Data),
     })
       .then((response) => response.json()) // check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-      .then((response) => console.log(response))
+      .then((response) => alert(response))
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   };
 
@@ -88,7 +88,6 @@ export default function AddWork({ navigation, route }) {
     const url = "http://85.215.98.83/clark/clark_restiloc-app/getPieces.php";
     // Edit the server ip
     // const url = "http://172.24.37.55:8090/getCars.php";
-    console.log(itemValue);
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -98,7 +97,7 @@ export default function AddWork({ navigation, route }) {
       .then((response) => response.json()) // check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
       .then((response) => setPieces(Object.values(response)))
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   };
 
