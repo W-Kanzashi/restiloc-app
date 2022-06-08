@@ -211,7 +211,9 @@ export default function AddWork({ navigation, route }) {
                     <TouchableOpacity
                       onPress={async () => {
                         // Take a picture
-                        let photo = await camera.takePictureAsync();
+                        let photo = await camera.takePictureAsync({
+                          base64: true,
+                        });
                         // Get the image data
                         handleInputChange(photo, "photo");
                         // Close the camera
