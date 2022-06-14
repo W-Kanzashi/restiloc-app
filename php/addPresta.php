@@ -24,6 +24,7 @@ $id_vehicule = $decodedData['id_vehicule'];
 $type_prestation = $decodedData["type_prestation"];
 $libelle_prestation = $decodedData['libelle_prestation'];
 $description_prestation = $decodedData['description_prestation'];
+$temps_prestation = $decodedData['temps_prestation']; // Nouvelle requete
 $quantite = $decodedData['quantite'];
 $traitement = $decodedData['traitement'];
 $id_piece = $decodedData['id_piece'];
@@ -79,6 +80,11 @@ switch($categorie_prestation) {
     $stmt->bind_param("iii", $id_piece, $id_prestation, $quantite);
     break;
 }
+
+// Ajouter le temps des prestations
+$stmt = $conn->prepare("INSERT INTO Necessiter (idNiveau, idPrestation, temps) VALUES (?,?,?)");
+$stmt->bind_param("ssi", $id_niveau, $id_prestation, $temps);
+    
 // Execute the query
 $stmt->execute();
 echo $stmt->error;

@@ -27,6 +27,8 @@ export default function AddWork({ navigation, route }) {
     type_prestation: "",
     libelle_prestation: "Porte",
     description_prestation: "La porte doit être remplacée",
+    niveau_prestation: "T1",
+    temps_prestation: "",
     quantite: 1,
     traitement: "legere",
     photo: {},
@@ -194,6 +196,28 @@ export default function AddWork({ navigation, route }) {
               name="description_prestation"
               onChangeText={(data) =>
                 handleInputChange(data, "description_prestation")
+              }
+            />
+            <View>
+                <Text style={{ fontSize: 20, color: "black" }}>Niveau de la Prestation</Text>
+                <Picker
+                  selectedValue={prestation.niveau_prestation}
+                  onValueChange={(itemValue) =>
+                    handleInputChange(itemValue.toLowerCase(), "traitement")
+                  }
+                >
+                  <Picker.Item label="t1" value="T1" />
+                  <Picker.Item label="t2" value="T2" />
+                  <Picker.Item label="t3" value="T3" />
+                </Picker>
+              </View>
+            <TextInput
+              label="Temps de la prestation"
+              value={prestation.temps_prestation}
+              style={styles.textInput}
+              name="temps_prestation"
+              onChangeText={(data) =>
+                handleInputChange(data, "temps_prestation")
               }
             />
 
